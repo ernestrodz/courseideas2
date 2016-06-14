@@ -2,6 +2,7 @@ package com.appsby.ernest;
 
 import model.CourseIdea;
 import model.CourseIdeaDAO;
+import model.NotFoundException;
 import model.SimpleCourseIdeaDAO;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -80,5 +81,12 @@ public class Main {
             model.put("idea", dao.findBySlug(req.params("slug")));
             return new ModelAndView(model, "idea-details.mustache");
      }, new HandlebarsTemplateEngine());
-        }
+
+     exception(NotFoundException.class, (exc, req, res) -> {
+         res.status(404);
+         HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
+         String html = engine.render(new ModelAndView(null, "not-found.mustache"));
+         res.body(html);
+     });
+    }
     }
