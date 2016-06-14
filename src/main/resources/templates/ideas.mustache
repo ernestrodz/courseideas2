@@ -1,0 +1,17 @@
+{{#partial "content"}}
+
+
+    <ul>
+    {{#each ideas}}
+        <li>{{title}}</li>
+    {{/each}}
+    </ul>
+
+    <form action="/ideas" method="post">
+        <input type="text" name = "title"/>
+        <button>Suggest</button>
+    </form>
+    
+{{/partial}}
+
+{{>base.mustache}}
