@@ -1,15 +1,30 @@
 package model;
 
+import com.github.slugify.Slugify;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Ernest on 6/14/2016.
  */
 public class CourseIdea {
+    private String slug;
     public String title;
     public String creator;
+    public Set voters;
 
     public CourseIdea(String title, String creator) {
+        voters = new HashSet<>();
         this.title = title;
         this.creator = creator;
+        try {
+            Slugify slugify = new Slugify();
+            slug = slugify.slugify(title);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getCreator() {
@@ -20,6 +35,18 @@ public class CourseIdea {
         return title;
     }
 
+    public String getSlug() {
+        return slug;
+    }
+
+    public boolean addVoter(String voterUserName) {
+        return voters.add(voterUserName);
+
+    }
+
+    public int getVoteCount() {
+        return voters.size();
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
